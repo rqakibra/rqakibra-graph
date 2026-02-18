@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-Commerce Platform — Rozzaq Portfolio</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,900;1,9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+  /* ═══════════════════════════════════════════
+     PROJECT PAGE — scoped styles
+     Base variables, container, navbar, contact,
+     footer semuanya diwarisi dari style.css
+  ═══════════════════════════════════════════ */
+
+  /* ── Top padding kompensasi navbar fixed ── */
+  .page-top { padding-top: 68px; }
+
+  /* ── BREADCRUMB ── */
+  .breadcrumb-bar {
+    padding: 22px 0;
+    border-bottom: 1px solid var(--gray-light);
+  }
+  .breadcrumb-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .breadcrumb-trail {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    font-size: .8rem;
+    color: var(--gray);
+  }
+  .breadcrumb-trail a { color: var(--gray); transition: color .2s; }
+  .breadcrumb-trail a:hover { color: var(--blue); }
+  .breadcrumb-trail i { font-size: .55rem; }
+  .breadcrumb-trail span { color: var(--dark); font-weight: 600; }
+
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    font-size: .82rem;
+    font-weight: 700;
+    color: var(--blue);
+    letter-spacing: .04em;
+    transition: gap .25s ease;
+    white-space: nowrap;
+  }
+  .back-btn:hover { gap: .85rem; }
+  .back-btn i { font-size: .72rem; }
+
+  /* ── PROJECT INTRO ── */
+  .proj-intro { padding: 60px 0 52px; }
+  .proj-intro-inner {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 6rem;
+    align-items: start;
+  }
+
+  .proj-category-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    font-size: .72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .18em;
+    color: var(--white);
+    background: var(--blue);
+    padding: .32rem .85rem;
+    border-radius: 99px;
+    margin-bottom: 1.4rem;
+  }
+
+  .proj-main-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 6vw, 5.2rem);
+    font-weight: 900;
+    color: var(--dark);
+    line-height: 1.02;
+    letter-spacing: -.02em;
+    margin-bottom: 1.5rem;
+  }
+
+  .proj-description {
+    font-size: 1.05rem;
+    color: var(--gray);
+    line-height: 1.92;
+    max-width: 500px;
+  }
+
+  /* ── META PANEL ── */
+  .proj-meta-panel {
+    border-left: 2px solid var(--gray-light);
+    padding-left: 2.5rem;
+    display: flex;
+    flex-direction: column;
+  }
+  .meta-row {
+    display: flex;
+    flex-direction: column;
+    gap: .22rem;
+    padding: 1.2rem 0;
+    border-bottom: 1px solid var(--gray-light);
+  }
+  .meta-row:last-child  { border-bottom: none; padding-bottom: 0; }
+  .meta-row:first-child { padding-top: 0; }
+  .meta-label {
+    font-size: .68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .18em;
+    color: var(--blue);
+  }
+  .meta-value {
+    font-size: .96rem;
+    font-weight: 600;
+    color: var(--dark);
+    line-height: 1.5;
+  }
+  .meta-link {
+    font-size: .92rem;
+    font-weight: 700;
+    color: var(--blue);
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    transition: gap .2s;
+  }
+  .meta-link:hover { gap: .8rem; }
+  .meta-link i { font-size: .7rem; }
+
+  /* ── GALLERY ── */
+  .gallery-section { padding: 0 0 90px; }
+
+  /* Stack vertikal — setiap gambar 1025×768 aspect ratio */
+  .gallery-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;              /* gap kecil antar gambar */
+    max-width: 1025px;      /* lebar maksimal sesuai ukuran gambar */
+    margin: 0 auto;         /* center dalam container */
+  }
+
+  .gal-item {
+    width: 100%;
+    overflow: hidden;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    position: relative;
+  }
+
+  /* Rasio 1025:768 = 75% height */
+  .gal-item img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1025 / 768;
+    object-fit: cover;
+    cursor: zoom-in;
+    transition: transform .55s cubic-bezier(.4,0,.2,1);
+  }
+  .gal-item:hover img { transform: scale(1.03); }
+
+  /* ── LIGHTBOX ── */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(8,10,20,.94);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .3s ease;
+  }
+  .lightbox.active { opacity: 1; pointer-events: all; }
+
+  .lb-img-wrap {
+    max-width: 92vw;
+    max-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .lb-img-wrap img {
+    max-width: 100%;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 24px 80px rgba(0,0,0,.5);
+    transition: opacity .18s ease;
+  }
+
+  .lb-close {
+    position: fixed;
+    top: 1.25rem; right: 1.5rem;
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.15);
+    color: white;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background .2s, transform .25s;
+    z-index: 2;
+  }
+  .lb-close:hover { background: rgba(255,255,255,.22); transform: rotate(90deg); }
+
+  .lb-nav {
+    position: fixed;
+    top: 50%; transform: translateY(-50%);
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.18);
+    color: white;
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background .2s;
+    z-index: 2;
+  }
+  .lb-nav:hover { background: rgba(255,255,255,.22); }
+  .lb-prev { left: 1.5rem; }
+  .lb-next { right: 1.5rem; }
+
+  .lb-counter {
+    position: fixed;
+    bottom: 1.5rem; left: 50%;
+    transform: translateX(-50%);
+    font-size: .78rem;
+    color: rgba(255,255,255,.5);
+    letter-spacing: .08em;
+    z-index: 2;
+  }
+
+  /* ── RELATED ── */
+  .related-section {
+    background: var(--off-white);
+    padding: 80px 0 100px;
+  }
+  .related-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 2.5rem;
+    gap: 1rem;
+  }
+  .related-head h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 2.5vw, 2.1rem);
+    font-weight: 900;
+    color: var(--dark);
+  }
+  .related-see-all {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    font-size: .82rem;
+    font-weight: 700;
+    color: var(--blue);
+    transition: gap .22s;
+  }
+  .related-see-all:hover { gap: .8rem; }
+
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .related-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: transform .3s ease, box-shadow .3s ease;
+    display: flex;
+    flex-direction: column;
+  }
+  .related-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); }
+  .related-thumb-wrap { overflow: hidden; flex-shrink: 0; }
+  .related-thumb {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    display: block;
+    transition: transform .5s ease;
+  }
+  .related-card:hover .related-thumb { transform: scale(1.06); }
+  .related-info { padding: 1.25rem 1.4rem 1.5rem; }
+  .related-tag {
+    font-size: .68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .15em;
+    color: var(--blue);
+    margin-bottom: .45rem;
+  }
+  .related-info h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: .3rem;
+    line-height: 1.35;
+  }
+  .related-info p { font-size: .82rem; color: var(--gray); line-height: 1.6; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .proj-intro-inner {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+    .proj-meta-panel {
+      border-left: none;
+      border-top: 2px solid var(--gray-light);
+      padding-left: 0;
+      padding-top: 1.5rem;
+    }
+    .related-grid { grid-template-columns: repeat(2, 1fr); }
+    .lb-prev { left: .6rem; }
+    .lb-next { right: .6rem; }
+  }
+
+  @media (max-width: 600px) {
+    .proj-main-title  { font-size: clamp(2.2rem, 8vw, 3rem); }
+    .gallery-stack    { gap: .75rem; }
+    .related-grid     { grid-template-columns: 1fr; }
+    .related-head     { flex-direction: column; align-items: flex-start; gap: .75rem; }
+    .breadcrumb-inner { flex-direction: column; align-items: flex-start; gap: .75rem; }
+  }
+  </style>
+</head>
+<body class="page-top">
+
+<!-- ════════════════════════════════════
+     LIGHTBOX
+════════════════════════════════════ -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+  <button class="lb-close" id="lbClose" aria-label="Close"><i class="fas fa-times"></i></button>
+  <button class="lb-nav lb-prev" id="lbPrev" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
+  <div class="lb-img-wrap"><img src="" id="lbImg" alt="Gallery image"></div>
+  <button class="lb-nav lb-next" id="lbNext" aria-label="Next"><i class="fas fa-chevron-right"></i></button>
+  <span class="lb-counter" id="lbCounter" aria-live="polite"></span>
+</div>
+
+<!-- ════════════════════════════════════
+     NAVBAR — tanpa active highlight
+════════════════════════════════════ -->
+<nav class="navbar" id="navbar">
+  <div class="container navbar-inner">
+    <div class="nav-logo">
+      <a href="index.html" class="logo-link">
+        <img src="image/Logo RQ.png" alt="Rozzaq Logo">
+      </a>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html#home">Home</a></li>
+      <li><a href="index.html#tentang">About</a></li>
+      <li><a href="index.html#skills">Skills</a></li>
+      <li><a href="index.html#experience">Experience</a></li>
+      <li><a href="index.html#projects">Projects</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ════════════════════════════════════
+     BREADCRUMB
+════════════════════════════════════ -->
+<div class="breadcrumb-bar">
+  <div class="container breadcrumb-inner reveal-up">
+    <nav class="breadcrumb-trail" aria-label="breadcrumb">
+      <a href="index.html">Home</a>
+      <i class="fas fa-chevron-right"></i>
+      <a href="index.html#projects">Projects</a>
+      <i class="fas fa-chevron-right"></i>
+      <span>Ayodya Real Estate Developer</span>
+    </nav>
+    <a href="index.html#projects" class="back-btn">
+      <i class="fas fa-arrow-left"></i> Back to Projects
+    </a>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     PROJECT INTRO — judul + meta
+════════════════════════════════════ -->
+<section class="proj-intro">
+  <div class="container">
+    <div class="proj-intro-inner">
+
+      <!-- KIRI: Judul & Deskripsi -->
+      <div class="reveal-up">
+        <span class="proj-category-tag">
+          <i class="fas fa-tag"></i> Branding
+        </span>
+        <h1 class="proj-main-title">Ayodya<br>Real Estate<br>Developer</h1>
+        <p class="proj-description">
+          Lorem Ipsum dolor sitamet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        </p>
+      </div>
+
+      <!-- KANAN: Meta — ganti sesuai project kamu -->
+      <div class="proj-meta-panel reveal-up" style="--d:120ms">
+        <div class="meta-row">
+          <span class="meta-label">Client</span>
+          <span class="meta-value">Ayodya Sekaran</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">Year</span>
+          <span class="meta-value">2023</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">Tools</span>
+          <span class="meta-value">Adobe Illustrator · Adobe Photoshop</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">Live Project</span>
+          <a href="#" class="meta-link">
+            None <i class="fas fa-arrow-up-right-from-square"></i>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     GALLERY — 5 gambar vertikal
+     Ukuran tiap kotak: 1025 × 768 px
+     → Ganti src="Image/nama-file.jpg"
+════════════════════════════════════ -->
+<section class="gallery-section">
+  <div class="container">
+    <div class="gallery-stack">
+
+      <!-- Gambar 1 -->
+      <div class="gal-item reveal-up" style="--d:0ms">
+        <img
+          src="image/Project2/1.jpg"
+          onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=1025&h=768&fit=crop&q=85'"
+          alt="Project image 1"
+        >
+      </div>
+
+      <!-- Gambar 2 -->
+      <div class="gal-item reveal-up" style="--d:80ms">
+        <img
+          src="image/Project2/2.jpg"
+          onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1545235617-9465d2a55698?w=1025&h=768&fit=crop&q=85'"
+          alt="Project image 2"
+        >
+      </div>
+
+      <!-- Gambar 3 -->
+      <div class="gal-item reveal-up" style="--d:160ms">
+        <img
+          src="image/Project2/3.jpg"
+          onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?w=1025&h=768&fit=crop&q=85'"
+          alt="Project image 3"
+        >
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     YOU MAY ALSO LIKE
+     → Ganti src, href, judul & deskripsi
+════════════════════════════════════ -->
+<section class="related-section">
+  <div class="container">
+
+    <div class="related-head reveal-up">
+      <h2>You may also like</h2>
+      <a href="index.html#projects" class="related-see-all">
+        View all projects <i class="fas fa-arrow-right"></i>
+      </a>
+    </div>
+
+    <div class="related-grid">
+      <a href="project1.html" class="related-card reveal-up" style="--d:0ms">
+        <div class="related-thumb-wrap">
+          <img
+            class="related-thumb"
+            src="image/Thumb 1.jpg"
+            onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1561070791-2526d30994b5?w=700&q=80&fit=crop'"
+            alt="Brand Identity"
+          >
+        </div>
+        <div class="related-info">
+          <p class="related-tag">Branding</p>
+          <h3>D'Gellatku Gelato Organic</h3>
+          <p>Complete brand redesign including logo, color palette, and style guide.</p>
+        </div>
+      </a>
+      <a href="project3.html" class="related-card reveal-up" style="--d:120ms">
+        <div class="related-thumb-wrap">
+          <img
+            class="related-thumb"
+            src="image/Thumb 3.jpg"
+            onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=700&q=80&fit=crop'"
+            alt="Mobile App"
+          >
+        </div>
+        <div class="related-info">
+          <p class="related-tag">Branding</p>
+          <h3>Sua Rona Exhibition</h3>
+          <p>Event Identity Design including logo and poster.</p>
+        </div>
+      </a>
+      <a href="project4.html" class="related-card reveal-up" style="--d:240ms">
+        <div class="related-thumb-wrap">
+          <img
+            class="related-thumb"
+            src="image/Thumb 4.jpg"
+            onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=700&q=80&fit=crop'"
+            alt="Dashboard UI"
+          >
+        </div>
+        <div class="related-info">
+          <p class="related-tag">Logo Design</p>
+          <h3>Arsana Baswara Parlement</h3>
+          <p>Logo design for a university organization, focusing on modern aesthetics and clear messaging.</p>
+        </div>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     CONTACT
+════════════════════════════════════ -->
+<section class="contact-section section-pad" id="contact">
+  <div class="container">
+    <div class="section-head reveal-up">
+      <span class="section-tag">Get In Touch</span>
+      <h2 class="section-title">Contact Me</h2>
+      <p class="section-sub">Let's connect and discuss how we can work together on your next project.</p>
+    </div>
+    <div class="contact-grid">
+      <a href="mailto:rozzaqakbar.ibrahim@gmail.com" class="contact-card reveal-up" style="--d:0ms">
+        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+        <h3>Email</h3>
+        <p>rozzaqakbar.ibrahim@gmail.com</p>
+      </a>
+      <a href="https://www.linkedin.com/in/rozzaq-akbar-897759370" target="_blank" rel="noopener" class="contact-card reveal-up" style="--d:100ms">
+        <div class="contact-icon"><i class="fab fa-linkedin-in"></i></div>
+        <h3>LinkedIn</h3>
+        <p>/in/rozzaq .akbar</p>
+      </a>
+      <a href="https://www.behance.net/rozzaqakbar" target="_blank" rel="noopener" class="contact-card reveal-up" style="--d:200ms">
+        <div class="contact-icon"><i class="fab fa-behance"></i></div>
+        <h3>Behance</h3>
+        <p>@RQakibra _</p>
+      </a>
+      <a href="https://www.instagram.com/rqakibra.graph" target="_blank" rel="noopener" class="contact-card reveal-up" style="--d:300ms">
+        <div class="contact-icon"><i class="fab fa-instagram"></i></div>
+        <h3>Instagram</h3>
+        <p>@rqakibra.graph</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     FOOTER
+════════════════════════════════════ -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="footer-logo">
+      <img src="image/Logo RQ.png" alt="Rozzaq">
+    </div>
+    <p class="footer-tagline">Making brands come alive through design and development.</p>
+    <div class="footer-socials">
+      <a href="https://www.linkedin.com/in/rozzaq-akbar-897759370" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a>
+      <a href="https://www.behance.net/rozzaqakbar" target="_blank" rel="noopener"><i class="fab fa-behance"></i></a>
+      <a href="https://www.instagram.com/rqakibra.graph/" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+      <a href="mailto:rozzaqakbar.ibrahim@gmail.com"><i class="fas fa-envelope"></i></a>
+    </div>
+    <hr class="footer-hr">
+    <p class="footer-copy">&copy; 2026 Rozzaq. All rights reserved. Made with <i class="fas fa-heart"></i></p>
+  </div>
+</footer>
+
+<script>
+/* ── Navbar scroll + mobile ── */
+const navbar  = document.getElementById('navbar');
+const toggle  = document.getElementById('menuToggle');
+const navMenu = document.getElementById('navLinks');
+
+toggle.addEventListener('click', () => {
+  toggle.classList.toggle('open');
+  navMenu.classList.toggle('open');
+});
+document.querySelectorAll('.nav-links a').forEach(a => {
+  a.addEventListener('click', () => {
+    toggle.classList.remove('open');
+    navMenu.classList.remove('open');
+  });
+});
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 60);
+}, { passive: true });
+
+/* ── Smooth scroll untuk anchor dalam halaman ── */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  });
+});
+
+/* ── Scroll Reveal ── */
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('revealed'); obs.unobserve(e.target); }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal-up').forEach(el => obs.observe(el));
+
+/* ── Lightbox ── */
+const galImgs  = Array.from(document.querySelectorAll('.gal-item img'));
+const lb       = document.getElementById('lightbox');
+const lbImg    = document.getElementById('lbImg');
+const lbClose  = document.getElementById('lbClose');
+const lbPrev   = document.getElementById('lbPrev');
+const lbNext   = document.getElementById('lbNext');
+const lbCount  = document.getElementById('lbCounter');
+let lbCur      = 0;
+
+function lbOpen(i) {
+  lbCur = i;
+  lbImg.src = galImgs[i].src;
+  lbImg.alt = galImgs[i].alt;
+  lbCount.textContent = (i + 1) + ' / ' + galImgs.length;
+  lb.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function lbClose_fn() {
+  lb.classList.remove('active');
+  document.body.style.overflow = '';
+}
+function lbMove(dir) {
+  lbCur = (lbCur + dir + galImgs.length) % galImgs.length;
+  lbImg.style.opacity = '0';
+  setTimeout(() => {
+    lbImg.src = galImgs[lbCur].src;
+    lbImg.alt = galImgs[lbCur].alt;
+    lbCount.textContent = (lbCur + 1) + ' / ' + galImgs.length;
+    lbImg.style.opacity = '1';
+  }, 150);
+}
+
+galImgs.forEach((img, i) => img.addEventListener('click', () => lbOpen(i)));
+lbClose.addEventListener('click', lbClose_fn);
+lbPrev.addEventListener('click',  () => lbMove(-1));
+lbNext.addEventListener('click',  () => lbMove(1));
+lb.addEventListener('click', e => { if (e.target === lb) lbClose_fn(); });
+document.addEventListener('keydown', e => {
+  if (!lb.classList.contains('active')) return;
+  if (e.key === 'Escape')     lbClose_fn();
+  if (e.key === 'ArrowLeft')  lbMove(-1);
+  if (e.key === 'ArrowRight') lbMove(1);
+});
+
+/* Touch swipe lightbox */
+let tx = null;
+lb.addEventListener('touchstart', e => { tx = e.changedTouches[0].screenX; }, { passive: true });
+lb.addEventListener('touchend',   e => {
+  if (tx === null) return;
+  const dx = e.changedTouches[0].screenX - tx;
+  if (Math.abs(dx) > 50) lbMove(dx < 0 ? 1 : -1);
+  tx = null;
+}, { passive: true });
+</script>
+</body>
+</html>
